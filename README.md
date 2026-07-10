@@ -13,9 +13,11 @@ Why not just ask ChatGPT? ChatGPT gives you a plan and forgets you. OnRamp gives
 step, a real room to walk into this week, and a nudge when it's time. The bet: momentum comes
 from one concrete step and one real room, not a 40-item listicle.
 
-## Run it
+## Try it
 
-Any static server from the repo root:
+**Live:** https://vanshul2304.github.io/onramp-hackathon/ (GitHub Pages, auto-deploys from `main`)
+
+Or run locally — any static server from the repo root:
 
 ```
 python3 -m http.server 8000
@@ -24,11 +26,22 @@ python3 -m http.server 8000
 
 No build step, no npm, no framework — vanilla HTML/CSS/JS by design.
 
+## Live events (backend job)
+
+`data/events.js` is regenerated every 6 hours by a GitHub Action
+([.github/workflows/refresh-events.yml](.github/workflows/refresh-events.yml)) running
+[scripts/refresh-events.mjs](scripts/refresh-events.mjs) — zero-dependency Node that pulls
+the Devpost hackathon JSON API plus three stable Luma calendars (`__NEXT_DATA__` parse),
+merges with still-upcoming curated events (curated tags win on dedupe), schema-validates,
+and refuses to overwrite the file if fewer than 8 valid events survive. The plan screen
+shows "Live events — refreshed N min ago" from the embedded timestamp, and the matcher
+also filters past events client-side between refreshes.
+
 ## What's real vs. faked (honesty ledger)
 
 - **Real:** the intake, the rules-based matcher (144-combo tested), curated course data with
-  verified URLs, real event listings with real signup links, Save buttons (localStorage),
-  shareable plan links (answers encoded in the URL hash).
+  verified URLs, real event listings with real signup links refreshed every 6 hours by CI,
+  Save buttons (localStorage), shareable plan links (answers encoded in the URL hash).
 - **Faked (fake-door):** "Email me my plan" only stores `{email, plan, answers}` to
   localStorage and shows a toast. No email is sent, no account exists, no weekly nudge loop
   is built. The UI copy never claims more than the toast line.

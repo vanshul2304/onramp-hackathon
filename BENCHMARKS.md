@@ -17,6 +17,9 @@ Every loop iteration scores this table. MVP ships when all MUST rows pass.
 | S2 | Save buttons + progress cue | Save toggles persist; "step N of 3" visible | ☑ localStorage persists; "Question N of 5" + step spine |
 | S3 | Vivid design | Dark+mint Neurovia-derived system, custom SVG icons, micro-interactions, zero external CDN | ☑ critic grep: zero external requests |
 | S4 | Honesty | No UI copy claims a built weekly loop or accounts | ☑ critic grep: no "weekly"/account claims |
+| M10 | Live events data | Auto-refresh ≤6h via backend job; past events filtered client-side; safety valve keeps old data if scrape <8 events | ☑ Action run green on CI runner, bot commit verified, idempotent ×2 |
+| M11 | Public deployment | Mentors can open the tool anytime at a public URL | ☑ https://vanshul2304.github.io/onramp-hackathon/ — full flow + 146/146 test verified ON the deployed site |
+| M12 | Freshness visible | Plan screen shows "Live events — refreshed N min/hours ago" | ☑ renders from window.EVENTS_UPDATED |
 
 Verification method per iteration:
 1. Open in browser at 375px, run full flow as 3 different personas (Riya/new, Sam/coder-job, Diana/switch).
