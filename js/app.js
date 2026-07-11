@@ -251,7 +251,7 @@
         { value: 'belong', label: 'I’m tired of learning alone', desc: 'I want a room, not a playlist', icon: 'people' }
       ]
     },
-    { key: 'location', title: 'Where should we look for rooms?', sub: 'Online events work anywhere. Add a city for in-person bonus.', type: 'location' }
+    { key: 'location', title: 'Where should we look for rooms?', sub: 'Online events work anywhere. Add a city to catch in-person ones too.', type: 'location' }
   ];
 
   /* =====================================================================
@@ -306,9 +306,9 @@
         heroDecor() +
         '<div class="hero">' +
           '<div class="brand"><span class="brand-mark">' + icon('compass', 'brand-ic') + '</span><span class="brand-name">OnRamp</span></div>' +
-          '<h1 class="hero-title">Stop doomscrolling AI courses.<br><span class="grad">Get your one next step.</span></h1>' +
-          '<p class="hero-sub">One curated course to start tonight, two or three real rooms to walk into this month, and a plan that actually fits your week — not another 200-tab rabbit hole.</p>' +
-          '<div class="anti-gpt"><span class="anti-ic">' + icon('spark') + '</span><p>ChatGPT gives you a plan and forgets you. OnRamp gives you the next step, a real room to walk into this week, and a nudge when it’s time.</p></div>' +
+          '<h1 class="hero-title">Stop doomscrolling AI.<br><span class="grad">One course, real rooms, one plan.</span></h1>' +
+          '<p class="hero-sub">A course to start tonight, real rooms this month, sized to the week you actually have.</p>' +
+          '<div class="anti-gpt"><span class="anti-ic">' + icon('spark') + '</span><p>ChatGPT hands you a plan and forgets you. OnRamp hands you one next step and a real room to walk into.</p></div>' +
           '<button class="btn btn-primary btn-lg" id="cta-start">Get my plan <span class="ar">' + icon('arrow') + '</span></button>' +
           '<p class="footnote">Free · No account · 2 minutes</p>' +
         '</div>' +
@@ -554,10 +554,10 @@
             (window.EVENTS_UPDATED ? '<p class="fresh-stamp">' + icon('spark') + 'Live events — refreshed ' + esc(freshLabel(window.EVENTS_UPDATED)) + '</p>' : '') +
             eventCards + '</div>' +
           '<article class="card teaser" style="--d:' + (200 + p.events.length * 90 + 90) + 'ms"><div class="step-badge ghost"><span class="step-num">3</span> What’s next</div>' +
-            '<p class="teaser-txt">Finish Step 1, show up to one room, and your next rung — a project, a deeper course, a community — gets a lot more obvious. Get the plan in your inbox so it’s there when you’re ready.</p></article>' +
+            '<p class="teaser-txt">Finish Step 1, show up to one room, and the next rung gets obvious: a project, a deeper course, a community. Save the plan to your inbox for when you’re ready.</p></article>' +
         '</div>' +
         '<div class="email-door card">' +
-          '<div class="email-head">' + icon('mail') + '<div><strong>Email me my plan</strong><span>' + (emailEnabled() ? 'Get the full plan in your inbox — links and all.' : 'We’ll keep it for you to come back to.') + '</span></div></div>' +
+          '<div class="email-head">' + icon('mail') + '<div><strong>Email me my plan</strong><span>' + (emailEnabled() ? 'The full plan in your inbox, links and all.' : 'Saved on this device so it’s here when you come back.') + '</span></div></div>' +
           '<form class="email-form" id="email-form">' +
             '<input id="email-input" type="email" required placeholder="you@email.com" aria-label="Your email" />' +
             '<button class="btn btn-primary" id="email-send-btn" type="submit">Send it</button>' +
@@ -590,17 +590,17 @@
 
       if (!emailEnabled()) {
         // No email service configured — honest offline capture, no false "sent".
-        toast('Saved on this device. Add an email key to receive it — see README.');
+        toast('Saved on this device. To receive it by email, add a key (see README).');
         input.value = '';
         return;
       }
 
       btn.disabled = true; var label = btn.textContent; btn.textContent = 'Sending…';
       sendPlanEmail(email, p).then(function () {
-        toast('Plan sent to ' + email + ' — check your inbox.');
+        toast('Plan sent to ' + email + '. Check your inbox.');
         input.value = '';
       }).catch(function (err) {
-        toast('Couldn’t send just now — your plan is saved. (' + (err && err.message ? err.message : 'try again') + ')');
+        toast('Couldn’t send just now, but your plan is saved. (' + (err && err.message ? err.message : 'try again') + ')');
       }).then(function () {
         btn.disabled = false; btn.textContent = label;
       });
