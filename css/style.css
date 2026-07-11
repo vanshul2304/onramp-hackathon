@@ -1,4 +1,4 @@
-/* OnRamp — style.css
+/* Curio — style.css
  * Neurovia-inspired dark + mint system, hand-rolled. No frameworks, no CDNs,
  * Serif display + system-sans body. Mobile-first (375px); landing/plan widen to
  * multi-column at >=1024px (see LAYOUT.md for the token + breakpoint rules).
@@ -271,14 +271,14 @@ input { font: inherit; }
   border: var(--border);
 }
 .brand-ic { width: 1.15rem; height: 1.15rem; }
-/* small, quiet wordmark — the headline is the hero, the brand just signs it */
-.brand-name { font-weight: 700; font-size: 1.02rem; letter-spacing: -.01em; }
+/* wordmark — sized up so the brand reads before the tagline */
+.brand-name { font-weight: 800; font-size: 1.65rem; letter-spacing: -.02em; }
 
 .hero-title {
   font-family: var(--font-display);
   font-optical-sizing: auto;      /* Fraunces opsz: display cut at large sizes */
-  font-size: clamp(2.35rem, 1.2rem + 4.8vw, 4.5rem);
-  line-height: 1.02;
+  font-size: clamp(2rem, 1rem + 3.4vw, 3.5rem);
+  line-height: 1.05;
   letter-spacing: -.025em;
   font-weight: 600;
   margin-bottom: 1.1rem;
@@ -287,12 +287,6 @@ input { font: inherit; }
 }
 /* solid ink accent — no gradient-fill text */
 .grad { color: var(--accent-ink); }
-.hero-sub {
-  color: var(--muted);
-  max-width: 34rem; margin: 0 auto 1.6rem;
-  font-size: 1.05rem;
-}
-
 /* search bar (landing + browse) */
 .search-bar {
   display: flex; align-items: center; gap: .6rem;
@@ -350,16 +344,22 @@ input { font: inherit; }
 .hero-cta .btn-secondary { background: var(--surface); }
 @media (max-width: 460px) { .hero-cta { flex-direction: column; align-items: stretch; } }
 
-/* trust line under the CTAs — legible fact, not muted fine print: "Free" carries
-   the brand's mint ink so it reads first, the rest stays calm (no ad rhythm). */
-.footnote { margin-top: 1rem; color: var(--text); font-size: .95rem; font-weight: 500; letter-spacing: .005em; }
+/* trust badge under the CTAs — centered so it stands out from the left-aligned
+   hero; "Free" carries the brand's mint ink so it reads first. */
+.footnote {
+  width: fit-content; margin: 1.3rem auto 0;
+  display: flex; align-items: center; gap: .4rem;
+  background: var(--surface-2); border: var(--border); border-radius: var(--radius-pill);
+  padding: .55rem 1.15rem;
+  color: var(--text); font-size: .95rem; font-weight: 500; letter-spacing: .005em;
+}
 .footnote strong { color: var(--accent-ink); font-weight: 700; }
-.trust-cities { margin-top: .55rem; color: var(--muted); font-size: .82rem; }
+.trust-cities { margin-top: .6rem; text-align: center; color: var(--muted); font-size: .82rem; }
 .trust-cities .ic { width: .95rem; height: .95rem; color: var(--accent-ink); vertical-align: -.16em; margin-right: .28rem; }
 
 .anti-line {
   display: flex; align-items: flex-start; gap: .5rem;
-  max-width: 33rem; margin: 1.6rem auto 0; text-align: left;
+  max-width: 33rem; margin: 1.6rem auto 1.7rem; text-align: left;
   color: var(--muted); font-size: .9rem;
 }
 .anti-line .anti-ic { flex-shrink: 0; display: inline-flex; }
@@ -378,9 +378,12 @@ input { font: inherit; }
     gap: clamp(3rem, 5vw, 5rem); align-items: center;
   }
   .landing .hero { text-align: left; padding-top: var(--space-8); }
-  .landing .hero-sub, .landing .search-bar, .landing .anti-line { margin-left: 0; margin-right: 0; }
-  .landing .focus-row, .landing .hero-cta { justify-content: flex-start; }
-  .landing .how { margin-top: var(--space-7); }
+  .landing .search-bar, .landing .anti-line { margin-left: 0; margin-right: 0; }
+  .landing .focus-row { max-width: none; margin-left: 0; margin-right: 0; justify-content: flex-start; }
+  .landing .hero-cta { justify-content: flex-start; }
+  /* right zone: "how it works" + FAQs stacked, separated by a token gap */
+  .landing-aside { display: flex; flex-direction: column; gap: var(--space-6); }
+  .landing-aside .how { margin-top: 0; }
   .landing .how-steps { grid-template-columns: 1fr; }
   .landing .how-title { text-align: left; }
 }
@@ -464,6 +467,9 @@ input { font: inherit; }
   margin-top: .15rem;
 }
 .how-ic { flex-shrink: 0; margin-top: .1rem; }
+/* how-step icon gradients are fixed hex (not theme vars) — their pale stop
+   nearly disappears on light theme's white card, so darken in light mode only. */
+html[data-theme="light"] .how-ic svg { filter: brightness(.72) saturate(1.15); }
 .how-step div { display: flex; flex-direction: column; gap: .1rem; }
 .how-step strong { font-size: .95rem; }
 .how-step span:not(.how-n):not(.how-ic) { color: var(--muted); font-size: .85rem; }

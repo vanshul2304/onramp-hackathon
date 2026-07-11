@@ -1,4 +1,4 @@
-/* OnRamp — orb.js
+/* Curio — orb.js
  * The masked-video sphere ("Orb" wave). Ported from the Next.js reference
  * (templates/HomePage/Hero/index.tsx:35-51) to vanilla, both themes.
  *

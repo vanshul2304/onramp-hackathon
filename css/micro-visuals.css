@@ -1,4 +1,4 @@
-/* OnRamp — micro-visuals.css
+/* Curio — micro-visuals.css
  * Sizing + choreography for the supporting visual moments in micro-visuals.js.
  * Tokens only (var(--...)); reuses the existing easing vars. Own reduced-motion
  * block near the bottom. Nothing here fires until the JS injects the markup.

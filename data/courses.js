@@ -1,4 +1,4 @@
-// OnRamp — curated starter courses for beginners breaking into AI.
+// Curio — curated starter courses for beginners breaking into AI.
 // All URLs hand-verified live on 2026-07-11. Loaded via <script src>; defines window.COURSES.
 window.COURSES = [
   {

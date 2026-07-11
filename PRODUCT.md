@@ -13,7 +13,7 @@ open → "yes, I'd follow this plan" in under 2 minutes (SPEC.md demo metric).
 
 ## Product Purpose
 
-OnRamp turns the AI-content firehose into ONE short, ordered plan: a single curated
+Curio turns the AI-content firehose into ONE short, ordered plan: a single curated
 course to start tonight plus 2–3 real upcoming events this month, each with a
 beginner-safe tag and a "why this fits you" line built from the visitor's own answers.
 Success = the visitor takes the first concrete step (starts the course, signs up for

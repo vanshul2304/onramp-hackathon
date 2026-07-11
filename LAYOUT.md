@@ -1,4 +1,4 @@
-# OnRamp — Layout Rulebook
+# Curio — Layout Rulebook
 
 The discipline layer for `css/style.css`. When merging lanes, **this file is the arbiter for spacing, container widths, breakpoints, and z-index.** Visual identity (color, type personality, decoration, copy, motion) is owned by other lanes — this doc does not govern those.
 

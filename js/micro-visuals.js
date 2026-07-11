@@ -1,4 +1,4 @@
-/* OnRamp — micro-visuals.js
+/* Curio — micro-visuals.js
  * Supporting visual moments: the intake progress rail (Ascent), the browse
  * empty-state art (Constellation), and the plan-reveal choreography (Signal).
  * Zero deps, zero network. Colors are CSS custom properties inside the SVG so

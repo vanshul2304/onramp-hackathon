@@ -1,12 +1,12 @@
-# OnRamp — Build Spec & Coordination Contract
+# Curio — Build Spec & Coordination Contract
 
-**Product:** OnRamp — personalized "next step" guide for beginners breaking into AI.
+**Product:** Curio — personalized "next step" guide for beginners breaking into AI.
 Turns the firehose of AI courses + events into ONE short, ordered plan:
 **1 curated course to start now + 2–3 real upcoming events this month**, each with a
 beginner-safe tag, a "learn this first" link, and a one-line "why this fits you."
 
 **Anti-ChatGPT line (must appear on landing):**
-"ChatGPT gives you a plan and forgets you. OnRamp gives you the next step, a real room
+"ChatGPT gives you a plan and forgets you. Curio gives you the next step, a real room
 to walk into this week, and a nudge when it's time."
 
 **Demo metric:** a stranger goes from open → "yes I'd follow this" plan in under 2 minutes, on a phone.

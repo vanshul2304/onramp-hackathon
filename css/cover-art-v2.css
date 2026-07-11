@@ -1,4 +1,4 @@
-/* OnRamp — Cover Art v2 container/compositing styles.
+/* Curio — Cover Art v2 container/compositing styles.
  * Tokens only (var(--…)); the SVG itself carries all colours (theme-aware).
  * The existing .card-cover rule in style.css already frames the banner inside
  * cards; these rules are the self-contained wrapper + fill for the v2 art so

@@ -1,4 +1,4 @@
-/* OnRamp — Cover Art v2 ("Signal")
+/* Curio — Cover Art v2 ("Signal")
  * Deterministic, seeded SVG banner art for course & event cards. The motif is
  * chosen by MEANING (kind → motif), not randomly; the seed drives composition
  * variance within a motif so every card is unique but recognizably one family.

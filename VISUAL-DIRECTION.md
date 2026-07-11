@@ -1,11 +1,11 @@
-# OnRamp Visual Direction — "Signal"
+# Curio Visual Direction — "Signal"
 
 Creative direction for the visual overhaul. Every agent working on visuals reads
 this first and designs against it. This document wins over personal taste.
 
 ## Concept
 
-OnRamp turns the AI-learning firehose into one ordered plan. The visual language
+Curio turns the AI-learning firehose into one ordered plan. The visual language
 is **Signal**: out of noise, a clear path emerges. Every visual is generative,
 code-driven, deterministic, and theme-aware. No raster images, no stock
 photography, no robots, no sparkle-emoji AI clichés, no purple gradients, no

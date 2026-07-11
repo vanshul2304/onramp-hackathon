@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* OnRamp — headless QA harness (zero deps, Node >=16).
+/* Curio — headless QA harness (zero deps, Node >=16).
  * Run:  node test/run-tests.mjs
  * Loads data/*.js + js/matcher.js in a vm sandbox (browser `window` shim),
  * exercises window.buildPlan across all 144 intake combos × 3 location cases,
@@ -184,7 +184,7 @@ report();
 process.exit(failures.length ? 1 : 0);
 
 function report() {
-  console.log(`\nOnRamp QA harness`);
+  console.log(`\nCurio QA harness`);
   console.log(`  combos exercised : ${combos} (144 intake × 3 locations expected = 432)`);
   console.log(`  courses          : ${COURSES ? COURSES.length : 0}`);
   console.log(`  events           : ${EVENTS ? EVENTS.length : 0}`);

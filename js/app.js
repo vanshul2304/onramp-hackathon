@@ -1,4 +1,4 @@
-/* OnRamp — app.js
+/* Curio — app.js
  * State machine (no router) for 3 screens: landing → intake → plan.
  * Loads window.COURSES / window.EVENTS from data/*.js. Rendering + micro-interactions live here.
  */
@@ -157,11 +157,11 @@
   function dtStamp() { return new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, ''); }
   function eventLocation(e) { return e.mode === 'online' ? 'Online' : (e.city || 'In-person'); }
   function eventDetails(e) {
-    return 'Added from OnRamp. ' + (e.beginnerSafe ? 'Beginner-safe. ' : '') + (e.url || '');
+    return 'Added from Curio. ' + (e.beginnerSafe ? 'Beginner-safe. ' : '') + (e.url || '');
   }
   function buildICS(e) {
     var lines = [
-      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//OnRamp//Events//EN', 'CALSCALE:GREGORIAN',
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Curio//Events//EN', 'CALSCALE:GREGORIAN',
       'BEGIN:VEVENT',
       'UID:' + ((e.id || ('evt' + Date.now())) + '@onramp'),
       'DTSTAMP:' + dtStamp(),
@@ -351,9 +351,9 @@
         heroDecor() +
         '<div class="landing-inner">' +
         '<div class="hero">' +
-          '<div class="brand"><span class="brand-mark">' + icon('compass', 'brand-ic') + '</span><span class="brand-name">OnRamp</span></div>' +
-          '<h1 class="hero-title"><span class="grad-text">Stop doomscrolling AI.</span><br><span class="grad-text grad-text--mint">Start building with it.</span></h1>' +
-          '<p class="hero-sub">One course to start tonight. Real rooms this month. Your next step today.</p>' +
+          '<div class="brand"><span class="brand-mark">' + icon('compass', 'brand-ic') + '</span><span class="brand-name">Curio</span></div>' +
+          '<h1 class="hero-title"><span class="grad-text">A platform where Curiosity meets personalised AI Curation.</span></h1>' +
+          '<p class="anti-line"><span class="anti-ic" aria-hidden="true">' + icon('spark') + '</span>ChatGPT hands you a plan and forgets you. Curio hands you one next step and a real room to walk into.</p>' +
           '<form class="search-bar" id="landing-search" role="search">' +
             '<span class="search-ic" aria-hidden="true">' + icon('search') + '</span>' +
             '<input id="landing-q" type="search" autocomplete="off" enterkeyhint="search" placeholder="Search courses, meetups, hackathons…" aria-label="Search courses and events" />' +
@@ -366,8 +366,8 @@
           '</div>' +
           '<p class="footnote"><strong>Free</strong> · No account · 2 minutes</p>' +
           heroTrustCities() +
-          '<p class="anti-line"><span class="anti-ic" aria-hidden="true">' + icon('spark') + '</span>ChatGPT hands you a plan and forgets you. OnRamp hands you one next step and a real room to walk into.</p>' +
         '</div>' +
+        '<div class="landing-aside">' +
         '<div class="how">' +
           '<div class="how-title">How it works</div>' +
           '<ol class="how-steps">' +
@@ -377,8 +377,9 @@
           '</ol>' +
         '</div>' +
         '<div class="how landing-faq-block">' +
-          '<div class="how-title">Questions</div>' +
+          '<div class="how-title">FAQs</div>' +
           '<div class="landing-faq"></div>' +
+        '</div>' +
         '</div>' +
         '</div>' +
       '</section>'
@@ -403,12 +404,12 @@
 
   // Landing FAQ copy — product voice (PRODUCT.md): one next step, anti-catalog.
   var LANDING_FAQ = [
-    { q: 'Is OnRamp free?',
+    { q: 'Is Curio free?',
       a: 'Yes — free, no account, about two minutes. You answer five taps and walk away with a plan.' },
     { q: 'Do I need to know how to code?',
-      a: 'No. OnRamp is built for people just breaking into AI: every plan starts with a beginner-safe course and rooms tagged for newcomers.' },
+      a: 'No. Curio is built for people just breaking into AI: every plan starts with a beginner-safe course and rooms tagged for newcomers.' },
     { q: 'How is this different from asking ChatGPT?',
-      a: 'ChatGPT hands you a plan and forgets you. OnRamp hands you one course to start tonight and a real room to walk into this month.' },
+      a: 'ChatGPT hands you a plan and forgets you. Curio hands you one course to start tonight and a real room to walk into this month.' },
     { q: 'What happens after I get my plan?',
       a: 'You take the first step — start the course, sign up for one room. Email the plan to yourself so it’s waiting when you come back.' }
   ];
@@ -617,7 +618,7 @@
     return '<div class="loc">' +
       '<label class="loc-field">' +
         '<span class="loc-ic">' + icon('pin') + '</span>' +
-        '<input id="city-input" type="text" autocomplete="off" placeholder="Your city (e.g. San Francisco)" value="' + esc(loc.city || '') + '" aria-label="Your city" />' +
+        '<input id="city-input" type="text" autocomplete="off" placeholder="Your city (e.g. Bengaluru)" value="' + esc(loc.city || '') + '" aria-label="Your city" />' +
       '</label>' +
       '<button class="option option-wide' + (loc.onlineOnly ? ' selected' : '') + '" id="online-only" aria-pressed="' + (loc.onlineOnly ? 'true' : 'false') + '" style="--d:80ms">' +
         '<span class="option-ic">' + icon('globe') + '</span>' +
@@ -884,7 +885,7 @@
       lines.push('  ' + e.url);
     });
     lines.push('');
-    lines.push('Made with OnRamp — https://vanshul2304.github.io/onramp-hackathon/');
+    lines.push('Made with Curio — https://vanshul2304.github.io/onramp-hackathon/');
     return lines.join('\n');
   }
 

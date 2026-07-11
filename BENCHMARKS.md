@@ -1,4 +1,4 @@
-# OnRamp MVP — Ship Benchmarks (from MoSCoW Musts)
+# Curio MVP — Ship Benchmarks (from MoSCoW Musts)
 
 Every loop iteration scores this table. MVP ships when all MUST rows pass.
 

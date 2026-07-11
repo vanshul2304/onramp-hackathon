@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* OnRamp — Cover Art v2 self-check (zero deps, Node >=16).
+/* Curio — Cover Art v2 self-check (zero deps, Node >=16).
  * Run:  node test/cover-art-v2-test.mjs
  * Loads js/cover-art-v2.js in a vm sandbox with a {window} shim and asserts:
  *   1. determinism — same (seed,kind,opts) => byte-identical string

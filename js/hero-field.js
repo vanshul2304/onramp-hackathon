@@ -1,4 +1,4 @@
-/* OnRamp — hero-field.js
+/* Curio — hero-field.js
  * The "Signal field": a generative, ambient hero background. Ascent (rising
  * contour strata receding to a horizon — the on-ramp) plus a sparse Lattice
  * (a few dim nodes near the path with one mint-lit focal node — intelligence

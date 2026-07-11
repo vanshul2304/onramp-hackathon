@@ -1,15 +1,15 @@
-# OnRamp
+# Curio
 
 **Your one next step into AI — not another catalog.**
 
-OnRamp is a personalized "next step" guide for beginners breaking into AI. Instead of the
+Curio is a personalized "next step" guide for beginners breaking into AI. Instead of the
 firehose of courses, newsletters, and event listings, it asks five quick questions (including
 the one that matters: *what's really driving this?*) and hands back ONE short, ordered plan:
 a single curated course to start tonight, plus 2–3 real upcoming events this month — each with
 a beginner-safe tag, a "learn this first" link back to the course, and a one-line "why this
 fits you" written from your own answers.
 
-Why not just ask ChatGPT? ChatGPT gives you a plan and forgets you. OnRamp gives you the next
+Why not just ask ChatGPT? ChatGPT gives you a plan and forgets you. Curio gives you the next
 step, a real room to walk into this week, and a nudge when it's time. The bet: momentum comes
 from one concrete step and one real room, not a 40-item listicle.
 

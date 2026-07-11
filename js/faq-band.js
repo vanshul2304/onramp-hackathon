@@ -1,4 +1,4 @@
-/* OnRamp — faq-band.js  ("Orb" wave)
+/* Curio — faq-band.js  ("Orb" wave)
  * Two ported visuals, vanilla + zero deps, inert until called:
  *   OnRampVisuals.horizonBand() -> HTMLElement   (Start's rotated video floor)
  *   OnRampVisuals.faq(items)    -> HTMLElement   (Faq/Item accordion)

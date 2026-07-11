@@ -1,4 +1,4 @@
-# OnRamp — UI smoke checklist (manual, ~5 min)
+# Curio — UI smoke checklist (manual, ~5 min)
 
 Static app, no build. Serve the repo root and open the page:
 
@@ -11,7 +11,7 @@ Run top-to-bottom in one sitting. Each step lists the action and the pass condit
 
 ---
 
-- [ ] **1. Landing renders.** Load `/`. Pass: hero "Stop doomscrolling AI courses.", the "Get my plan" button, "How it works" 1-2-3, and the animated decor/glow all show. No console errors.
+- [ ] **1. Landing renders.** Load `/`. Pass: hero "A platform where Curiosity meets personalised AI Curation.", the "Get my plan" button, "How it works" 1-2-3, and the animated decor/glow all show. No console errors.
 
 - [ ] **2. Intake step 1 (level).** Click "Get my plan". Pass: "Where are you starting?" with 3 options (Brand new / I've dabbled / I can code), progress reads "Question 1 of 5", bar animates.
 

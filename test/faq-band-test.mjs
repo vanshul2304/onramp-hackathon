@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* OnRamp — faq-band self-check (zero deps, Node >=16).
+/* Curio — faq-band self-check (zero deps, Node >=16).
  * Run:  node test/faq-band-test.mjs
  * Loads js/faq-band.js in a vm sandbox with a minimal hand-rolled DOM shim
  * (no jsdom) and asserts structure + the accordion's one-open invariant in

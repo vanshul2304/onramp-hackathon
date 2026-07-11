@@ -1,4 +1,4 @@
-/* OnRamp — matcher.js
+/* Curio — matcher.js
  * Pure, no-DOM. Attaches window.buildPlan(answers, courses, events).
  * buildPlan → { course, events:[2-3], why:{ course:"…", events:{ [id]:"…" } } }
  *

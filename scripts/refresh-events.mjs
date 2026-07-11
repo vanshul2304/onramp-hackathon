@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* OnRamp — scripts/refresh-events.mjs
+/* Curio — scripts/refresh-events.mjs
  * Regenerates data/events.js every 6h (GitHub Action, ubuntu-latest, Node 20+, zero deps).
  *
  * Sources (both verified 2026-07-11 with plain fetch — no headless browser needed):
