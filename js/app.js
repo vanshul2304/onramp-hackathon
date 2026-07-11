@@ -1193,11 +1193,48 @@
   }
 
   /* =====================================================================
+   * THEME — light/dark toggle. Head script sets data-theme pre-paint;
+   * here we sync aria-label + meta theme-color and wire the toggle button.
+   * ===================================================================== */
+  function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    try { localStorage.setItem('onramp-theme', t); } catch (e) {}
+    var btn = document.getElementById('theme-toggle');
+    if (btn) btn.setAttribute('aria-label', t === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', t === 'light' ? '#EAF3F0' : '#051117');
+  }
+  /* Circular reveal via the View Transitions API — the new theme wipes out from
+   * the toggle. Falls back to an instant swap (Firefox, reduced-motion). */
+  function flipTheme() {
+    var next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!document.startViewTransition || reduce) { applyTheme(next); return; }
+    var btn = document.getElementById('theme-toggle');
+    var r = btn.getBoundingClientRect();
+    var x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var end = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    var vt = document.startViewTransition(function () { applyTheme(next); });
+    vt.ready.then(function () {
+      document.documentElement.animate(
+        { clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 550, easing: 'cubic-bezier(.22, 1, .36, 1)', pseudoElement: '::view-transition-new(root)' }
+      );
+    }).catch(function () {});
+  }
+  function wireTheme() {
+    applyTheme(document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+    var btn = document.getElementById('theme-toggle');
+    if (btn) btn.addEventListener('click', flipTheme);
+  }
+
+  /* =====================================================================
    * BOOT
    * ===================================================================== */
   function boot() {
     app = document.getElementById('app');
     if (!app) return; // loaded outside the app (e.g. test page) — expose samples only
+    wireTheme();
     wireTilt();
     var shared = readHash();
     if (shared) {

@@ -5,6 +5,7 @@
  */
 
 :root {
+  color-scheme: dark;   /* native controls/scrollbars match the dark shell */
   --bg: #051117;
   --surface: #151F25;
   --surface-2: #263035;
@@ -15,6 +16,9 @@
   --text: #F2F7F6;
   --warm: #FF8A5E;      /* the one warm accent — beginner-safe + key highlights */
   --warm-soft: #FFD37A;
+  /* mint as a FOREGROUND (text/outline/icon): in dark it IS mint; light remaps
+     it to a darker teal-ink that passes contrast. Fills stay var(--mint). */
+  --accent-ink: var(--mint);
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* editorial serif display against the system-sans body — the pairing that reads "designed" */
   --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Charter, Georgia, "Times New Roman", serif;
@@ -55,6 +59,7 @@
   /* ---- named z-index levels ---- */
   --z-decor: 0;      /* background glow/orbs */
   --z-content: 1;    /* foreground content above decor */
+  --z-ui: 50;        /* fixed chrome (theme toggle) — above content, below toast */
   --z-toast: 100;    /* transient overlays */
 
   --shadow-card: 0 1px 1px rgba(255,255,255,.06) inset, 0 20px 40px -24px rgba(0,0,0,.6);
@@ -63,6 +68,28 @@
   --ease-out: cubic-bezier(.22, 1, .36, 1);        /* enter/exit, position — strong ease-out */
   --ease-in-out: cubic-bezier(.77, 0, .175, 1);    /* on-screen movement */
   --ease-spring: cubic-bezier(.34, 1.56, .64, 1);  /* select confirmation only */
+}
+
+/* ============ light theme ============ */
+/* Same brand in daylight: mint-tinted off-whites + teal-forward ink, NOT a
+ * generic white theme. --mint/--teal stay fixed (the gradient-button identity
+ * is a constant across both themes); only foreground/decor tokens shift. */
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #EAF3F0;         /* mint-tinted off-white — chroma toward the brand hue */
+  --surface: #FFFFFF;
+  --surface-2: #DCE9E5;
+  --line: #B7CCC6;
+  --text: #0A1B21;       /* 15.6:1 on --bg, 17.6:1 on --surface */
+  --muted: #4E6168;      /* 5.7:1 on --bg, 6.5:1 on --surface — body-size safe on both */
+  /* mint as foreground fails on light (~1.7:1); this teal-ink passes ≥4.5:1 */
+  --accent-ink: #0E6B58; /* 5.7:1 on --bg, 6.4:1 on --surface */
+  /* warm as TEXT on light surfaces needs to darken (audit: every var(--warm)/
+     var(--warm-soft) usage is text; the rgba tints behind them are literals). */
+  --warm: #A0461B;       /* burnt orange — 5.5:1 on --bg, ≥4.6:1 on warm tints */
+  --warm-soft: #8A5A00;  /* dark amber — freemium badge text, 5.7:1 on its tint */
+  --shadow-card: 0 1px 2px rgba(10,27,33,.06), 0 16px 32px -20px rgba(10,27,33,.22);
+  --glow-mint: 0 0 20px rgba(27,140,119,.18);   /* subtler, teal-tinted */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -76,6 +103,8 @@ body {
   line-height: 1.55;
   min-height: 100dvh;
   overflow-x: clip;
+  /* soften the theme toggle — surfaces/cards may switch instantly, that's fine */
+  transition: background .25s var(--ease-out), color .25s var(--ease-out);
 }
 
 img, svg { max-width: 100%; }
@@ -154,7 +183,7 @@ input { font: inherit; }
   color: var(--text);
   border: var(--border);
 }
-.btn-secondary:hover { border-color: var(--mint); color: var(--mint); }
+.btn-secondary:hover { border-color: var(--accent-ink); color: var(--accent-ink); }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: .4rem;
   min-height: 44px;               /* touch target */
@@ -165,7 +194,7 @@ input { font: inherit; }
 .btn-ghost:hover { color: var(--text); background: rgba(255,255,255,.06); }
 
 :where(button, a, input):focus-visible {
-  outline: 2px solid var(--mint);
+  outline: 2px solid var(--accent-ink);
   outline-offset: 2px;
   border-radius: .4rem;
 }
@@ -244,7 +273,7 @@ input { font: inherit; }
   overflow-wrap: break-word;      /* long words never overflow at 320px */
 }
 /* solid ink accent — no gradient-fill text */
-.grad { color: var(--mint); }
+.grad { color: var(--accent-ink); }
 .hero-sub {
   color: var(--muted);
   max-width: 34rem; margin: 0 auto 1.6rem;
@@ -262,7 +291,7 @@ input { font: inherit; }
   box-shadow: var(--shadow-card);
   transition: border-color .2s ease, box-shadow .2s ease;
 }
-.search-bar:focus-within { border-color: var(--mint); box-shadow: var(--glow-mint); }
+.search-bar:focus-within { border-color: var(--accent-ink); box-shadow: var(--glow-mint); }
 .landing .search-bar { max-width: none; }   /* fills the content column on the landing */
 .search-ic { color: var(--muted); display: inline-flex; flex-shrink: 0; }
 .search-ic .ic { width: 1.2rem; height: 1.2rem; }
@@ -377,7 +406,7 @@ input { font: inherit; }
   font-size: .7rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
   background: var(--surface-2); border: 1px solid var(--line); color: var(--muted);
 }
-.row-kind.kind-course { color: var(--mint); border-color: rgba(122,226,207,.4); background: rgba(122,226,207,.1); }
+.row-kind.kind-course { color: var(--accent-ink); border-color: rgba(122,226,207,.4); background: rgba(122,226,207,.1); }
 .row-kind.kind-hackathon { color: var(--warm); border-color: rgba(255,138,94,.4); background: rgba(255,138,94,.1); }
 .chip-safe { color: var(--warm); border-color: rgba(255,138,94,.4); background: rgba(255,138,94,.08); }
 
@@ -395,7 +424,7 @@ input { font: inherit; }
 
 .how { position: relative; z-index: var(--z-content); margin-top: var(--space-8); }
 .how-title {
-  text-align: center; color: var(--mint);
+  text-align: center; color: var(--accent-ink);
   font-size: .8rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
   margin-bottom: 1.3rem;
 }
@@ -452,7 +481,7 @@ input { font: inherit; }
 }
 
 .q-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: -.015em; line-height: 1.15; margin-bottom: .4rem; text-wrap: balance; overflow-wrap: break-word; }
-.q-title em { color: var(--mint); font-style: italic; }
+.q-title em { color: var(--accent-ink); font-style: italic; }
 .q-sub { color: var(--muted); margin-bottom: 1.6rem; font-size: .95rem; }
 
 .options, .loc { display: flex; flex-direction: column; gap: .75rem; }
@@ -482,7 +511,7 @@ input { font: inherit; }
 }
 .option:active { --tz: -2px; }
 .option.selected {
-  border-color: var(--mint);
+  border-color: var(--accent-ink);
   background: linear-gradient(160deg, rgba(27,140,119,.22), var(--surface));
   box-shadow: var(--shadow-card), var(--glow-mint);
 }
@@ -517,7 +546,7 @@ input { font: inherit; }
   transition: border-color .2s ease;
   animation: cardIn .45s var(--ease-out) backwards;
 }
-.loc-field:focus-within { border-color: var(--mint); box-shadow: var(--glow-mint); }
+.loc-field:focus-within { border-color: var(--accent-ink); box-shadow: var(--glow-mint); }
 .loc-field input {
   flex: 1; min-width: 0;
   background: none; border: none; outline: none;
@@ -561,7 +590,7 @@ input { font: inherit; }
   position: relative; z-index: var(--z-content);
   display: inline-flex; align-items: center; gap: .55rem;
   font-size: .82rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--mint);
+  color: var(--accent-ink);
   margin-bottom: .9rem;
 }
 .step-num {
@@ -620,7 +649,7 @@ input { font: inherit; }
   padding: .25rem .7rem; border-radius: var(--radius-pill);
   font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
 }
-.badge-free { background: rgba(122,226,207,.15); color: var(--mint); border: 1px solid rgba(122,226,207,.4); }
+.badge-free { background: rgba(122,226,207,.15); color: var(--accent-ink); border: 1px solid rgba(122,226,207,.4); }
 .badge-freemium { background: rgba(255,211,122,.12); color: var(--warm-soft); border: 1px solid rgba(255,211,122,.35); }
 .badge-paid { background: rgba(255,138,94,.12); color: var(--warm); border: 1px solid rgba(255,138,94,.35); }
 
@@ -637,7 +666,7 @@ input { font: inherit; }
 
 .why {
   background: rgba(5,17,23,.55);
-  border-left: 3px solid var(--mint);
+  border-left: 3px solid var(--accent-ink);
   border-radius: .5rem;
   padding: .75rem .9rem;
   font-size: .93rem;
@@ -646,7 +675,7 @@ input { font: inherit; }
 .why-tag {
   display: block;
   font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--mint);
+  color: var(--accent-ink);
   margin-bottom: .25rem;
 }
 
@@ -674,7 +703,7 @@ input { font: inherit; }
   background: linear-gradient(135deg, rgba(122,226,207,.18), rgba(27,140,119,.14));
   border: 1px solid rgba(122,226,207,.35);
   border-radius: var(--radius-pill);
-  font-size: .82rem; font-weight: 700; color: var(--mint);
+  font-size: .82rem; font-weight: 700; color: var(--accent-ink);
 }
 .date-pill .ic { width: 1.05em; height: 1.05em; }
 
@@ -690,12 +719,12 @@ input { font: inherit; }
 .safe-tag .ic { width: 1.05em; height: 1.05em; }
 .safe-note { color: var(--muted); font-size: .85rem; margin: .45rem 0 .2rem; }
 .event-card .why { margin-top: .8rem; }
-.fresh-stamp { display: flex; align-items: center; gap: .4rem; color: var(--mint); font-size: .8rem; letter-spacing: .02em; margin: -.2rem 0 .9rem; opacity: .85; }
+.fresh-stamp { display: flex; align-items: center; gap: .4rem; color: var(--accent-ink); font-size: .8rem; letter-spacing: .02em; margin: -.2rem 0 .9rem; opacity: .85; }
 .fresh-stamp .ic, .fresh-stamp svg { width: 1em; height: 1em; flex-shrink: 0; }
 
 .learn-first {
   display: inline-flex; align-items: center; gap: .45rem;
-  color: var(--mint); font-size: .9rem; font-weight: 650;
+  color: var(--accent-ink); font-size: .9rem; font-weight: 650;
   padding: .35rem 0;
   margin-bottom: .6rem;
   border-bottom: 1px dashed rgba(122,226,207,.5);
@@ -708,7 +737,7 @@ input { font: inherit; }
 .event-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .5rem; }
 .event-actions .btn, .event-actions .cal-btn { padding: .7rem 1rem; font-size: .93rem; }
 .event-actions .signup { flex: 1; }
-.save-btn.saved { border-color: var(--mint); color: var(--mint); background: rgba(122,226,207,.1); }
+.save-btn.saved { border-color: var(--accent-ink); color: var(--accent-ink); background: rgba(122,226,207,.1); }
 
 /* add-to-calendar — native <details> dropdown, no JS to open */
 .cal { position: relative; }
@@ -738,7 +767,7 @@ input { font: inherit; }
   color: var(--text); font-size: .9rem; font-weight: 600;
   transition: background .15s ease, color .15s ease;
 }
-.cal-item:hover { background: rgba(122,226,207,.12); color: var(--mint); }
+.cal-item:hover { background: rgba(122,226,207,.12); color: var(--accent-ink); }
 .cal-item .ic { width: 1.1em; height: 1.1em; }
 
 .teaser .teaser-txt { color: var(--muted); font-size: .93rem; margin-top: .6rem; }
@@ -761,7 +790,7 @@ input { font: inherit; }
   outline: none;
   transition: border-color .2s ease;
 }
-.email-form input:focus { border-color: var(--mint); box-shadow: var(--glow-mint); }
+.email-form input:focus { border-color: var(--accent-ink); box-shadow: var(--glow-mint); }
 .email-form input::placeholder { color: var(--muted); }
 .email-form .btn { padding: .75rem 1.2rem; }
 @media (max-width: 420px) {
@@ -785,6 +814,72 @@ input { font: inherit; }
 }
 #toast.show { transform: translate(-50%, 0); }
 .toast-ic .ic, #toast .ic { width: 1.2rem; height: 1.2rem; }
+
+/* ============ theme toggle ============ */
+/* Contract markup (added outside #app by the JS lane): a fixed round button
+ * holding one 24px SVG that morphs sun→moon (theme-toggles technique). */
+.theme-toggle {
+  position: fixed; top: var(--space-4); right: var(--space-4);
+  z-index: var(--z-ui);
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.75rem; height: 2.75rem;         /* 44px touch target */
+  border-radius: 50%;
+  background: var(--surface);
+  border: var(--border);
+  color: var(--muted);
+  box-shadow: var(--shadow-card);
+  transition: color .2s ease, border-color .2s ease, background .25s var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 768px) {
+  .theme-toggle { top: var(--space-5); right: var(--space-5); }
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--accent-ink); }
+.theme-toggle:active { transform: scale(.94); }
+/* sun→moon morph: the mask circle (.tt-bite) slides in to bite the grown core
+ * into a crescent while the rays collapse; transform/opacity only, so the
+ * global reduced-motion kill switch degrades it to an instant swap. */
+.tt-icon { width: 1.4rem; height: 1.4rem; transition: transform .5s var(--ease-out); }
+.tt-core, .tt-rays { transform-box: fill-box; transform-origin: center; }
+.tt-core { transition: transform .5s var(--ease-out); }
+.tt-rays { transition: transform .5s var(--ease-out), opacity .35s ease; }
+.tt-bite { transition: transform .5s var(--ease-out); }
+html[data-theme="light"] .tt-icon { transform: rotate(-25deg); }
+html[data-theme="light"] .tt-core { transform: scale(1.55); }
+html[data-theme="light"] .tt-rays { opacity: 0; transform: scale(.55); }
+html[data-theme="light"] .tt-bite { transform: translate(-16px, 4px); }
+
+/* circular theme reveal — flipTheme() animates clip-path on the new snapshot;
+ * disable the UA's default cross-fade so the wipe is the only motion */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+/* ============ light-theme decor overrides ============ */
+/* Effects tuned for near-black need re-tuning for daylight: teal-forward hues,
+ * lower alpha. Layout untouched — color + decoration only. */
+html[data-theme="light"] .ramp-grid {
+  background:
+    repeating-linear-gradient(90deg, transparent 0 47px, rgba(27,140,119,.20) 47px 48px),
+    repeating-linear-gradient(0deg,  transparent 0 47px, rgba(27,140,119,.15) 47px 48px);
+}
+html[data-theme="light"] .ramp-sky {
+  background: radial-gradient(50% 50% at 50% 50%, rgba(27,140,119,.16), rgba(122,226,207,.08) 45%, transparent 70%);
+}
+html[data-theme="light"] .ramp-grain { opacity: .04; mix-blend-mode: multiply; }
+/* dark navy callout → soft mint panel (border-left already remaps via token) */
+html[data-theme="light"] .why { background: rgba(122,226,207,.12); }
+/* hover/selection borders in mint rgba go invisible on light — teal-tint them */
+html[data-theme="light"] .focus-chip:hover,
+html[data-theme="light"] .row-card:hover,
+html[data-theme="light"] .option:hover,
+html[data-theme="light"] .course-card { border-color: rgba(27,140,119,.45); }
+html[data-theme="light"] .learn-first { border-bottom-color: rgba(27,140,119,.45); }
+/* the .85 dim drops the fresh-stamp under 4.5:1 on light — restore full ink */
+html[data-theme="light"] .fresh-stamp { opacity: 1; }
+html[data-theme="light"] .learn-first:hover { color: #0A5546; }
+html[data-theme="light"] .spine::before {
+  background: linear-gradient(180deg, var(--accent-ink), var(--teal) 60%, transparent);
+}
+html[data-theme="light"] #toast { border-color: rgba(27,140,119,.45); }
 
 /* ============ reduced motion ============ */
 @media (prefers-reduced-motion: reduce) {
