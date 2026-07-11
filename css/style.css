@@ -382,6 +382,8 @@ input { font: inherit; }
   .landing .focus-row { max-width: none; margin-left: 0; margin-right: 0; justify-content: flex-start; }
   .landing .hero-cta { justify-content: flex-start; }
   .landing .how { margin-top: var(--space-7); }
+  /* "how it works" bottom-anchored to the hero and lifted so its top sits level with the search bar — keeps the decorative orb fully visible above it */
+  .landing .how:not(.landing-faq-block) { align-self: end; margin-top: 0; margin-bottom: var(--space-7); }
   /* FAQ: full-width band below the two-zone hero, centered */
   .landing .landing-faq-block { grid-column: 1 / -1; margin-top: 0; }
   .landing .landing-faq-block .how-title { text-align: center; }
