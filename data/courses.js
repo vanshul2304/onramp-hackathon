@@ -213,7 +213,7 @@ window.COURSES = [
     id: "mit-6s191-intro-dl",
     title: "Introduction to Deep Learning (6.S191)",
     provider: "MIT",
-    url: "http://introtodeeplearning.com/",
+    url: "https://introtodeeplearning.com/",
     levels: ["coder"],
     goals: ["understand", "build"],
     motivations: ["curious", "compete"],
