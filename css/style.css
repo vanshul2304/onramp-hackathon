@@ -1,6 +1,7 @@
 /* OnRamp — style.css
  * Neurovia-inspired dark + mint system, hand-rolled. No frameworks, no CDNs,
- * system font stack. Mobile-first (375px), centered ~480px column, wider landing.
+ * Serif display + system-sans body. Mobile-first (375px); landing/plan widen to
+ * multi-column at >=1024px (see LAYOUT.md for the token + breakpoint rules).
  */
 
 :root {
@@ -15,6 +16,8 @@
   --warm: #FF8A5E;      /* the one warm accent — beginner-safe + key highlights */
   --warm-soft: #FFD37A;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* editorial serif display against the system-sans body — the pairing that reads "designed" */
+  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Charter, Georgia, "Times New Roman", serif;
 
   /* ---- spacing scale (4/8pt) — use these for structural rhythm ---- */
   --space-1: 0.25rem;   /* 4  */
@@ -216,25 +219,22 @@ input { font: inherit; }
   width: 2.4rem; height: 2.4rem; border-radius: .8rem;
   background: linear-gradient(160deg, var(--surface-2), var(--surface));
   border: var(--border);
-  box-shadow: var(--glow-mint);
 }
 .brand-ic { width: 1.4rem; height: 1.4rem; }
 .brand-name { font-weight: 800; font-size: 1.3rem; letter-spacing: -.02em; }
 
 .hero-title {
-  font-size: var(--text-3xl);
-  line-height: 1.12;
-  letter-spacing: -.03em;
-  font-weight: 800;
+  font-family: var(--font-display);
+  font-size: clamp(2.35rem, 1.4rem + 4vw, 3.9rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  font-weight: 600;
   margin-bottom: 1.1rem;
   text-wrap: balance;
   overflow-wrap: break-word;      /* long words never overflow at 320px */
 }
-.grad {
-  background: linear-gradient(100deg, var(--mint) 20%, #cdf5ec 50%, var(--teal) 90%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent; color: transparent;
-}
+/* solid ink accent — no gradient-fill text */
+.grad { color: var(--mint); }
 .hero-sub {
   color: var(--muted);
   max-width: 34rem; margin: 0 auto 1.6rem;
@@ -290,7 +290,6 @@ input { font: inherit; }
   color: #04231D; font-weight: 700;
   background: linear-gradient(135deg, var(--mint), var(--teal));
   border-color: transparent;
-  box-shadow: var(--glow-mint);
 }
 
 .hero-cta { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; }
@@ -307,11 +306,27 @@ input { font: inherit; }
 .anti-line .anti-ic { flex-shrink: 0; display: inline-flex; }
 .anti-line .anti-ic .ic { width: 1.15rem; height: 1.15rem; margin-top: .12rem; }
 
+/* ≥1024px: asymmetric two-zone landing — hero content left, "how it works" right.
+   Breaks the centered-everything symmetry; mobile stays a single centered column. */
+@media (min-width: 1024px) {
+  .landing {
+    max-width: var(--container-max);
+    display: grid; grid-template-columns: 1.12fr .88fr;
+    gap: clamp(3rem, 5vw, 5rem); align-items: center;
+  }
+  .landing .hero { text-align: left; padding-top: var(--space-8); }
+  .landing .hero-sub, .landing .search-bar, .landing .anti-line { margin-left: 0; margin-right: 0; }
+  .landing .focus-row, .landing .hero-cta { justify-content: flex-start; }
+  .landing .how { margin-top: var(--space-7); }
+  .landing .how-steps { grid-template-columns: 1fr; }
+  .landing .how-title { text-align: left; }
+}
+
 /* ============ browse / explore ============ */
 .browse { padding-top: 1rem; }
 .browse-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.3rem; }
 .browse-plan { padding: .6rem 1.1rem; font-size: .92rem; }
-.browse-title { font-size: 1.7rem; letter-spacing: -.02em; line-height: 1.15; margin-bottom: .35rem; }
+.browse-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: -.015em; line-height: 1.12; margin-bottom: .35rem; }
 .browse-sub { color: var(--muted); font-size: .95rem; margin-bottom: 1.3rem; max-width: 42rem; }
 .browse .search-bar { max-width: none; margin-left: 0; margin-right: 0; }
 .browse-focus {
@@ -420,7 +435,7 @@ input { font: inherit; }
   55%, 100%{ transform: translateX(240%); }
 }
 
-.q-title { font-size: var(--text-2xl); letter-spacing: -.02em; line-height: 1.2; margin-bottom: .4rem; text-wrap: balance; overflow-wrap: break-word; }
+.q-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: -.015em; line-height: 1.15; margin-bottom: .4rem; text-wrap: balance; overflow-wrap: break-word; }
 .q-title em { color: var(--mint); font-style: italic; }
 .q-sub { color: var(--muted); margin-bottom: 1.6rem; font-size: .95rem; }
 
@@ -500,7 +515,7 @@ input { font: inherit; }
 /* ============ plan ============ */
 .plan { padding-top: var(--space-4); }
 .plan-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.4rem; }
-.plan-title { font-size: var(--text-xl); letter-spacing: -.02em; line-height: 1.15; margin-bottom: .5rem; text-wrap: balance; overflow-wrap: break-word; }
+.plan-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-2xl); letter-spacing: -.015em; line-height: 1.12; margin-bottom: .5rem; text-wrap: balance; overflow-wrap: break-word; }
 .plan-summary { color: var(--muted); font-size: .95rem; margin-bottom: 1.8rem; }
 
 /* ordered spine */
@@ -538,7 +553,6 @@ input { font: inherit; }
   width: 1.6rem; height: 1.6rem; border-radius: 50%;
   background: linear-gradient(135deg, var(--mint), var(--teal));
   color: #04231D; font-weight: 800; font-size: .85rem;
-  box-shadow: var(--glow-mint);
 }
 .step-badge.ghost { margin-bottom: .2rem; }
 
@@ -581,7 +595,7 @@ input { font: inherit; }
 .course-card.has-cover { padding-top: 1.3rem; }
 
 .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: .8rem; margin-bottom: .7rem; }
-.card-title { font-size: var(--text-lg); line-height: 1.25; letter-spacing: -.01em; overflow-wrap: break-word; }
+.card-title { font-family: var(--font-display); font-weight: 600; font-size: var(--text-lg); line-height: 1.2; letter-spacing: -.01em; overflow-wrap: break-word; }
 .card-title.sm { font-size: 1.08rem; }
 .provider { color: var(--muted); font-size: .88rem; margin-top: .15rem; }
 
@@ -718,7 +732,7 @@ input { font: inherit; }
 .email-head { display: flex; gap: .75rem; align-items: flex-start; margin-bottom: .9rem; }
 .email-head .ic { width: 1.7rem; height: 1.7rem; margin-top: .15rem; }
 .email-head div { display: flex; flex-direction: column; gap: .1rem; }
-.email-head strong { font-size: 1.05rem; }
+.email-head strong { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
 .email-head span { color: var(--muted); font-size: .87rem; }
 .email-form { display: flex; gap: .6rem; }
 .email-form input {
