@@ -6,11 +6,41 @@
   <title>OnRamp — your one next step into AI</title>
   <meta name="description" content="Stop doomscrolling AI. Get one course, two or three real rooms to walk into this month, and a plan sized to the week you actually have.">
   <meta name="theme-color" content="#051117">
+  <script>
+    try {
+      var stored = localStorage.getItem('onramp-theme');
+      var t = (stored === 'light' || stored === 'dark') ? stored
+        : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='%237AE2CF' stroke-width='2'/%3E%3Cpath d='M15.5 8.5 10.8 10.8 8.5 15.5 13.2 13.2Z' fill='%237AE2CF'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <main id="app" aria-live="polite"></main>
+
+  <!-- single-SVG sun/moon morph (theme-toggles technique): a masked circle slides
+       in to bite the sun into a crescent while the rays collapse -->
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to light mode">
+    <svg class="tt-icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+      <mask id="tt-crescent">
+        <rect width="24" height="24" fill="#fff"/>
+        <circle class="tt-bite" cx="32" cy="4" r="8" fill="#000"/>
+      </mask>
+      <circle class="tt-core" cx="12" cy="12" r="5.5" fill="currentColor" mask="url(#tt-crescent)"/>
+      <g class="tt-rays" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="12" y1="1.5" x2="12" y2="3.5"/>
+        <line x1="12" y1="20.5" x2="12" y2="22.5"/>
+        <line x1="1.5" y1="12" x2="3.5" y2="12"/>
+        <line x1="20.5" y1="12" x2="22.5" y2="12"/>
+        <line x1="4.8" y1="4.8" x2="6.2" y2="6.2"/>
+        <line x1="17.8" y1="17.8" x2="19.2" y2="19.2"/>
+        <line x1="4.8" y1="19.2" x2="6.2" y2="17.8"/>
+        <line x1="17.8" y1="6.2" x2="19.2" y2="4.8"/>
+      </g>
+    </svg>
+  </button>
 
   <!-- data lanes (owned by other agents); app.js falls back to inline samples if missing -->
   <script src="data/courses.js"></script>

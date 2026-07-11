@@ -55,6 +55,7 @@ Use for padding, margin, and gap on structural elements.
 |-------|-------|-------|
 | `--z-decor` | 0 | background glow / orbs |
 | `--z-content` | 1 | foreground content |
+| `--z-ui` | 50 | fixed chrome (theme toggle) — above content, below toast |
 | `--z-toast` | 100 | transient overlays |
 
 ---
