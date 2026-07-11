@@ -37,35 +37,22 @@ and refuses to overwrite the file if fewer than 8 valid events survive. The plan
 shows "Live events — refreshed N min ago" from the embedded timestamp, and the matcher
 also filters past events client-side between refreshes.
 
-## Turn on real email (2 minutes)
+## Download your plan
 
-The "Email me my plan" box sends the plan to the visitor's inbox once you connect a free
-[EmailJS](https://www.emailjs.com/) account — no backend, no server code, just three IDs
-pasted into [js/app.js](js/app.js). Until you do, it stays an honest offline capture
-(saves the plan on the visitor's device, no false "sent" message).
-
-1. Sign up at emailjs.com and **Add an Email Service** (Gmail works) → copy its **Service ID**.
-2. **Create a template**. In the template, set the recipient ("To Email") field to `{{to_email}}`,
-   and put `{{plan_text}}` in the body (and `{{course_title}}` in the subject if you like).
-   Copy the **Template ID**.
-3. Account → General → copy your **Public Key**.
-4. Open `js/app.js`, fill the `EMAIL_CONFIG` block at the top with those three values, commit
-   and push. Done — submissions now email the full plan (links included) to whoever typed
-   their address. Free tier is 200 emails/month.
-
-> EmailJS is called over plain `fetch` (no SDK), so the app stays 100% CDN-free. The Public
-> Key is safe to expose client-side; that's what it's for. In EmailJS → Account → Security you
-> can restrict sends to your Pages domain to prevent abuse.
+The "Download my plan" button turns the personalized plan into a PDF entirely in the
+browser — a hand-rolled generator in [js/app.js](js/app.js) writes the PDF bytes directly,
+no library, no backend, so the app stays 100% CDN-free. The file downloads straight to the
+visitor's device with every course and event resource as a clickable link. Nothing is sent
+anywhere; no data leaves the device.
 
 ## What's real vs. faked (honesty ledger)
 
 - **Real:** the intake, the rules-based matcher (144-combo tested), curated course data with
   verified URLs, real event listings with real signup links refreshed every 3 hours by CI,
   Save buttons (localStorage), shareable plan links (answers encoded in the URL hash).
-- **Real once configured:** "Email me my plan" sends the plan to the visitor via EmailJS when
-  `EMAIL_CONFIG` is filled (see above). **Before that it's an offline capture** — stores
-  `{email, plan, answers}` to localStorage with an honest "saved on this device" message,
-  no false claim of sending.
+- **Real:** "Download my plan" generates the plan as a PDF client-side and downloads it to the
+  visitor's device, resource links included (see above). No data leaves the device — no capture,
+  no server, nothing to configure.
 - **Still faked:** there is no account system and no automated weekly nudge loop — the copy
   never claims either.
 

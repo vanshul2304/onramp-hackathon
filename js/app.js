@@ -5,21 +5,6 @@
 (function () {
   'use strict';
 
-  /* =====================================================================
-   * REAL EMAIL SETUP (optional). Leave blank → the "Email me my plan" box
-   * stays an offline capture (saves locally, no send). Fill all three from
-   * your EmailJS account to send the plan to the address the visitor types.
-   * Steps in README → "Turn on real email". No SDK/CDN — plain fetch.
-   * ===================================================================== */
-  var EMAIL_CONFIG = {
-    serviceId: '',   // EmailJS service_id  (e.g. "service_ab12cd")
-    templateId: '',  // EmailJS template_id (e.g. "template_xy34z")
-    publicKey: ''    // EmailJS Public Key  (Account → General)
-  };
-  function emailEnabled() {
-    return EMAIL_CONFIG.serviceId && EMAIL_CONFIG.templateId && EMAIL_CONFIG.publicKey;
-  }
-
   function getCourses() { return (window.COURSES && window.COURSES.length) ? window.COURSES : []; }
   function getEvents() { return (window.EVENTS && window.EVENTS.length) ? window.EVENTS : []; }
 
@@ -68,10 +53,6 @@
           '<path d="M4 9.5h16" stroke="url(#' + g + ')" stroke-width="1.6"/>' +
           '<path d="M8 3.5v3M16 3.5v3" stroke="#7AE2CF" stroke-width="1.6" stroke-linecap="round"/>' +
           '<circle cx="9" cy="13.5" r="1.2" fill="#FF8A5E"/><circle cx="13" cy="13.5" r="1.2" fill="#7AE2CF"/>');
-      case 'mail':
-        return wrap('<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7AE2CF"/><stop offset="1" stop-color="#1B8C77"/></linearGradient></defs>' +
-          '<rect x="3.5" y="5.5" width="17" height="13" rx="2.4" stroke="url(#' + g + ')" stroke-width="1.6"/>' +
-          '<path d="M4.5 7 12 12.5 19.5 7" stroke="#7AE2CF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>');
       case 'clock': // hours
         return wrap('<defs><linearGradient id="' + g + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7AE2CF"/><stop offset="1" stop-color="#1B8C77"/></linearGradient></defs>' +
           '<circle cx="12" cy="12" r="8.5" stroke="url(#' + g + ')" stroke-width="1.6"/>' +
@@ -411,7 +392,7 @@
     { q: 'How is this different from asking ChatGPT?',
       a: 'ChatGPT hands you a plan and forgets you. Curio hands you one course to start tonight and a real room to walk into this month.' },
     { q: 'What happens after I get my plan?',
-      a: 'You take the first step — start the course, sign up for one room. Email the plan to yourself so it’s waiting when you come back.' }
+      a: 'You take the first step — start the course, sign up for one room. Download the plan as a PDF so it’s on your device when you come back.' }
   ];
 
   function updateLandingBrowseBtn() {
@@ -787,15 +768,12 @@
             (window.EVENTS_UPDATED ? '<p class="fresh-stamp">' + icon('spark') + 'Live events — refreshed ' + esc(freshLabel(window.EVENTS_UPDATED)) + '</p>' : '') +
             eventCards + '</div>' +
           '<article class="card teaser rim-card" style="animation:none"><div class="step-badge ghost"><span class="step-num">3</span> What’s next</div>' +
-            '<p class="teaser-txt">Finish Step 1, show up to one room, and the next rung gets obvious: a project, a deeper course, a community. Save the plan to your inbox for when you’re ready.</p></article>' +
+            '<p class="teaser-txt">Finish Step 1, show up to one room, and the next rung gets obvious: a project, a deeper course, a community. Download the plan so it’s there when you’re ready.</p></article>' +
         '</div>' +
-        '<div class="email-door card rim-card" style="overflow:hidden">' +
-          '<div class="email-door-content" style="position:relative;z-index:var(--z-content)">' +
-          '<div class="email-head">' + icon('mail') + '<div><strong>Email me my plan</strong><span>' + (emailEnabled() ? 'The full plan in your inbox, links and all.' : 'Saved on this device so it’s here when you come back.') + '</span></div></div>' +
-          '<form class="email-form" id="email-form">' +
-            '<input id="email-input" type="email" required placeholder="you@email.com" aria-label="Your email" />' +
-            '<button class="btn btn-primary" id="email-send-btn" type="submit">Send it</button>' +
-          '</form>' +
+        '<div class="download-door card rim-card" style="overflow:hidden">' +
+          '<div class="download-door-content" style="position:relative;z-index:var(--z-content)">' +
+          '<div class="download-head">' + icon('download') + '<div><strong>Download my plan</strong><span>Your full plan as a PDF — every link clickable, saved on your device.</span></div></div>' +
+          '<button class="btn btn-primary download-plan-btn" id="download-plan-btn" type="button">Download PDF</button>' +
           '</div>' +
         '</div>' +
       '</section>'
@@ -804,11 +782,11 @@
     // one-shot entrance choreography — owns the plan cards' transform/opacity
     requestAnimationFrame(function () { window.OnRampVisuals.planReveal(app.querySelector('.plan')); });
 
-    // "Orb" wave: horizon band decor behind the email-door CTA (first child of
+    // "Orb" wave: horizon band decor behind the download CTA (first child of
     // the relative/overflow-hidden card; content already lifted to --z-content).
-    var emailDoor = app.querySelector('.email-door');
-    if (emailDoor && window.OnRampVisuals.horizonBand) {
-      emailDoor.insertBefore(window.OnRampVisuals.horizonBand(), emailDoor.firstChild);
+    var downloadDoor = app.querySelector('.download-door');
+    if (downloadDoor && window.OnRampVisuals.horizonBand) {
+      downloadDoor.insertBefore(window.OnRampVisuals.horizonBand(), downloadDoor.firstChild);
     }
 
     // wire
@@ -838,83 +816,127 @@
         if (t) { t.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' }); t.classList.add('flash'); setTimeout(function () { t.classList.remove('flash'); }, 1200); }
       });
     });
-    document.getElementById('email-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      var input = document.getElementById('email-input');
-      var btn = document.getElementById('email-send-btn');
-      var email = input.value.trim();
-      if (!email) return;
-      var s = loadStore();
-      s.email = email; s.answers = state.answers; s.plan = summarizePlanForStore(p); s.ts = Date.now();
-      saveStore(s);
-
-      if (!emailEnabled()) {
-        // No email service configured — honest offline capture, no false "sent".
-        toast('Saved on this device. To receive it by email, add a key (see README).');
-        input.value = '';
-        return;
-      }
-
-      btn.disabled = true; var label = btn.textContent; btn.textContent = 'Sending…';
-      sendPlanEmail(email, p).then(function () {
-        toast('Plan sent to ' + email + '. Check your inbox.');
-        input.value = '';
-      }).catch(function (err) {
-        toast('Couldn’t send just now, but your plan is saved. (' + (err && err.message ? err.message : 'try again') + ')');
-      }).then(function () {
-        btn.disabled = false; btn.textContent = label;
-      });
+    document.getElementById('download-plan-btn').addEventListener('click', function () {
+      var btn = this;
+      downloadPlanPDF(p, a);
+      var label = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Downloaded ✓';
+      toast('Plan downloaded as a PDF — links and all.');
+      setTimeout(function () { btn.disabled = false; btn.textContent = label; }, 2500);
     });
   }
 
-  function planToText(p, email) {
-    var lines = [];
-    if (p.course) {
-      lines.push('STEP 1 — START THIS COURSE');
-      lines.push(p.course.title + '  (' + p.course.provider + ')');
-      if (p.why && p.why.course) lines.push('Why: ' + p.why.course);
-      if (p.course.firstStep) lines.push('First step: ' + p.course.firstStep);
-      lines.push(p.course.url);
-      lines.push('');
+  /* =====================================================================
+   * PLAN → PDF — hand-rolled generator, zero dependencies (app stays
+   * CDN-free). Base-14 Helvetica on A4 with real /Link annotations, so
+   * every course/event URL is clickable in the downloaded file.
+   * ===================================================================== */
+  function planPDF(p, a) {
+    var W = 595.28, H = 841.89, M = 56, LH = 16;
+    var MINT = '0.106 0.549 0.467 rg', GRAY = '0.42 0.42 0.42 rg';
+    var pages = [], cur, y;
+    function newPage() { cur = { ops: [], annots: [] }; pages.push(cur); y = H - M; }
+    // base-14 Helvetica has no unicode — swap typographic chars, drop the rest
+    function sanitize(s) {
+      return String(s == null ? '' : s)
+        .replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+        .replace(/[–—]/g, '-').replace(/…/g, '...')
+        .replace(/[·•]/g, '-').replace(/[^\x20-\x7E]/g, ' ');
     }
-    lines.push('STEP 2 — SHOW UP TO THESE ROOMS');
-    lines.push('(Tip: on each room, tap “Calendar” to add it to Google or download a .ics.)');
+    function pdfEsc(s) { return s.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)'); }
+    // ponytail: average-glyph-width estimate; fine for wrapping, no metrics table
+    function tw(s, size) { return s.length * size * 0.5; }
+    function text(s, opts) {
+      opts = opts || {};
+      var size = opts.size || 11, font = opts.bold ? '/F2' : '/F1';
+      var max = W - 2 * M, words = sanitize(s).split(' '), lines = [], ln = '';
+      words.forEach(function (w) {
+        var t = ln ? ln + ' ' + w : w;
+        if (tw(t, size) > max && ln) { lines.push(ln); ln = w; } else { ln = t; }
+      });
+      if (ln) lines.push(ln);
+      lines.forEach(function (row) {
+        if (y - LH < M) newPage();
+        y -= (opts.lead || LH);
+        cur.ops.push('BT ' + font + ' ' + size + ' Tf ' + (opts.color || '0 0 0 rg') +
+          ' 1 0 0 1 ' + M + ' ' + y.toFixed(2) + ' Tm (' + pdfEsc(row) + ') Tj ET');
+        if (opts.link) {
+          cur.annots.push({ rect: [M, y - 2, M + tw(row, size), y + size], uri: sanitize(opts.link) });
+        }
+      });
+    }
+    function gap(n) { y -= n; if (y < M) newPage(); }
+
+    newPage();
+    text('Your AI starting plan', { size: 20, bold: true, lead: 24 });
+    text(summaryLine(a), { color: GRAY });
+    gap(10);
+    if (p.course) {
+      text('STEP 1 - START THIS COURSE', { size: 12, bold: true, color: MINT, lead: 20 });
+      text(p.course.title + '  (' + p.course.provider + ')', { bold: true });
+      if (p.why && p.why.course) text('Why this fits you: ' + p.why.course);
+      if (p.course.firstStep) text('Do this first: ' + p.course.firstStep);
+      text(p.course.url, { color: MINT, link: p.course.url });
+      gap(8);
+    }
+    text('STEP 2 - SHOW UP TO THESE ROOMS', { size: 12, bold: true, color: MINT, lead: 20 });
     p.events.forEach(function (e) {
-      lines.push('• ' + e.title + '  —  ' + (e.dateLabel || '') + (e.mode === 'online' ? ' · Online' : (e.city ? ' · ' + e.city : '')));
-      if (e.beginnerSafe) lines.push('  Beginner-safe. ' + (e.beginnerNote || ''));
-      lines.push('  ' + e.url);
+      gap(4);
+      text(e.title + ' - ' + (e.dateLabel || '') + (e.mode === 'online' ? ' - Online' : (e.city ? ' - ' + e.city : '')), { bold: true });
+      if (e.beginnerSafe) text('Beginner-safe. ' + (e.beginnerNote || ''));
+      if (p.why && p.why.events && p.why.events[e.id]) text('Why this room: ' + p.why.events[e.id]);
+      text(e.url, { color: MINT, link: e.url });
     });
-    lines.push('');
-    lines.push('Made with Curio — https://vanshul2304.github.io/onramp-hackathon/');
-    return lines.join('\n');
+    gap(8);
+    text('STEP 3 - WHAT\'S NEXT', { size: 12, bold: true, color: MINT, lead: 20 });
+    text('Finish Step 1, show up to one room, and the next rung gets obvious: a project, a deeper course, a community.');
+    gap(12);
+    var site = 'https://vanshul2304.github.io/onramp-hackathon/';
+    text('Made with Curio - ' + site, { color: GRAY, link: site });
+
+    // assemble: 1 catalog, 2 pages, 3-4 fonts, then per page content + annots + page
+    var objs = [null];
+    function add(body) { objs.push(body); return objs.length - 1; }
+    add('<< /Type /Catalog /Pages 2 0 R >>');
+    add(''); // pages tree, filled once kids are known
+    add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+    add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+    var kids = pages.map(function (pg) {
+      var stream = pg.ops.join('\n');
+      var contentNum = add('<< /Length ' + stream.length + ' >>\nstream\n' + stream + '\nendstream');
+      var annotNums = pg.annots.map(function (an) {
+        return add('<< /Type /Annot /Subtype /Link /Border [0 0 0] /Rect [' +
+          an.rect.map(function (v) { return v.toFixed(2); }).join(' ') +
+          '] /A << /S /URI /URI (' + pdfEsc(an.uri) + ') >> >>');
+      });
+      return add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + W + ' ' + H + ']' +
+        ' /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + contentNum + ' 0 R' +
+        (annotNums.length ? ' /Annots [' + annotNums.map(function (n) { return n + ' 0 R'; }).join(' ') + ']' : '') +
+        ' >>') + ' 0 R';
+    });
+    objs[2] = '<< /Type /Pages /Kids [' + kids.join(' ') + '] /Count ' + pages.length + ' >>';
+
+    var out = '%PDF-1.4\n', offsets = [0], i;
+    for (i = 1; i < objs.length; i++) {
+      offsets[i] = out.length;
+      out += i + ' 0 obj\n' + objs[i] + '\nendobj\n';
+    }
+    var xref = out.length;
+    out += 'xref\n0 ' + objs.length + '\n0000000000 65535 f \n';
+    for (i = 1; i < objs.length; i++) out += ('0000000000' + offsets[i]).slice(-10) + ' 00000 n \n';
+    out += 'trailer\n<< /Size ' + objs.length + ' /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF';
+    var bytes = new Uint8Array(out.length);
+    for (i = 0; i < out.length; i++) bytes[i] = out.charCodeAt(i) & 0xff;
+    return bytes;
   }
 
-  function sendPlanEmail(email, p) {
-    var payload = {
-      service_id: EMAIL_CONFIG.serviceId,
-      template_id: EMAIL_CONFIG.templateId,
-      user_id: EMAIL_CONFIG.publicKey,
-      template_params: {
-        to_email: email,
-        course_title: p.course ? p.course.title : 'Your AI starting point',
-        plan_text: planToText(p, email)
-      }
-    };
-    return fetch('https://api.emailjs.com/api/v1.0/email/send', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    }).then(function (res) {
-      if (!res.ok) { return res.text().then(function (t) { throw new Error(t || ('HTTP ' + res.status)); }); }
-    });
-  }
-
-  function summarizePlanForStore(p) {
-    return {
-      course: p.course ? p.course.id : null,
-      events: p.events.map(function (e) { return e.id; }),
-      why: p.why
-    };
+  function downloadPlanPDF(p, a) {
+    var blob = new Blob([planPDF(p, a)], { type: 'application/pdf' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url; link.download = 'curio-plan.pdf';
+    document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
   }
 
   function toggleSave(id, btn) {

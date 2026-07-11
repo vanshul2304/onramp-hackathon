@@ -101,7 +101,7 @@ No-overlap rules (this wave must not collide with the Signal wave):
 1. The orb becomes the hero's SINGLE lit focal element. `heroField()` gains
    an option to shift/dim its lattice so the mint focal node never sits under
    the orb — one focal point per composition stands.
-2. The horizon band appears ONLY around the plan screen's email-door / CTA
+2. The horizon band appears ONLY around the plan screen's download-door / CTA
    block — a screen region no Signal motif occupies.
 3. Rim-light shadows and gradient text ship as OPT-IN classes; do not
    restyle `.card` or headings globally (existing glow shadows must not

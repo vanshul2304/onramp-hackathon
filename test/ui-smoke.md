@@ -21,7 +21,7 @@ Run top-to-bottom in one sitting. Each step lists the action and the pass condit
 
 - [ ] **5. Back button.** From step 5, click the back arrow repeatedly. Pass: walks back through 4→3→2→1, prior selections still highlighted; back from step 1 returns to landing.
 
-- [ ] **6. Plan renders with course + events.** Complete intake (try level=new, goal=understand, online-only). Pass: Step 1 course card (title, provider, cost badge, "Why this fits you", "Do this first", Start button) + Step 2 with 2–3 event cards + Step 3 teaser + email box. Summary line reflects your answers.
+- [ ] **6. Plan renders with course + events.** Complete intake (try level=new, goal=understand, online-only). Pass: Step 1 course card (title, provider, cost badge, "Why this fits you", "Do this first", Start button) + Step 2 with 2–3 event cards + Step 3 teaser + "Download my plan" box. Summary line reflects your answers.
 
 - [ ] **7. Beginner-safe + why-lines populate.** On the plan, each event card shows a non-empty "Why this room" line; beginner-safe events show the shield tag and note. Pass: no blank why lines, no "undefined".
 
@@ -31,7 +31,7 @@ Run top-to-bottom in one sitting. Each step lists the action and the pass condit
 
 - [ ] **10. Hash-shared URL restores plan.** Open the copied URL in a fresh tab (or new window). Pass: it boots straight to the plan screen (skips landing/intake) with the same course and events.
 
-- [ ] **11. Email offline-capture message.** With no EmailJS keys configured (default), type an address in "Email me my plan" and submit. Pass: toast "Saved on this device. Add an email key to receive it — see README." (honest — no false "sent"). Input clears.
+- [ ] **11. Download my plan.** Click "Download PDF" in the download box. Pass: `onramp-plan.pdf` downloads to the device, opens as a valid PDF with the plan content, and every course/event URL is a clickable link. Toast confirms; button briefly reads "Downloaded ✓".
 
 - [ ] **12. Reduced motion.** Enable OS "Reduce motion" (or DevTools → Rendering → Emulate `prefers-reduced-motion: reduce`), redo intake. Pass: option taps advance with no/instant animation; no jarring motion; app still fully usable.
 
@@ -39,7 +39,7 @@ Run top-to-bottom in one sitting. Each step lists the action and the pass condit
 
 - [ ] **14. Keyboard-only pass.** From landing, navigate with Tab/Enter/Space only through CTA → each intake option → location field → plan actions (Remix, Share, Save, Sign up). Pass: visible focus ring throughout, every control reachable and operable, focus lands sensibly on each new screen.
 
-- [ ] **15. Toast behavior.** Trigger a toast (Share or Save/email). Pass: appears with icon, is readable, auto-dismisses after ~3s, and a second trigger resets the timer rather than stacking duplicates.
+- [ ] **15. Toast behavior.** Trigger a toast (Share, Save, or Download). Pass: appears with icon, is readable, auto-dismisses after ~3s, and a second trigger resets the timer rather than stacking duplicates.
 
 ---
 

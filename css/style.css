@@ -796,30 +796,14 @@ html[data-theme="light"] .how-ic svg { filter: brightness(.72) saturate(1.15); }
 
 .teaser .teaser-txt { color: var(--muted); font-size: .93rem; margin-top: .6rem; }
 
-/* email fake door */
-.email-door { margin-top: 1.8rem; animation-delay: 650ms; }
-.email-head { display: flex; gap: .75rem; align-items: flex-start; margin-bottom: .9rem; }
-.email-head .ic { width: 1.7rem; height: 1.7rem; margin-top: .15rem; }
-.email-head div { display: flex; flex-direction: column; gap: .1rem; }
-.email-head strong { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
-.email-head span { color: var(--muted); font-size: .87rem; }
-.email-form { display: flex; gap: .6rem; }
-.email-form input {
-  flex: 1; min-width: 0;
-  background: var(--bg);
-  border: var(--border);
-  border-radius: var(--radius-pill);
-  color: var(--text);
-  padding: .75rem 1.1rem;
-  outline: none;
-  transition: border-color .2s ease;
-}
-.email-form input:focus { border-color: var(--accent-ink); box-shadow: var(--glow-mint); }
-.email-form input::placeholder { color: var(--muted); }
-.email-form .btn { padding: .75rem 1.2rem; }
-@media (max-width: 420px) {
-  .email-form { flex-direction: column; }
-}
+/* download-plan door */
+.download-door { margin-top: 1.8rem; animation-delay: 650ms; }
+.download-head { display: flex; gap: .75rem; align-items: flex-start; margin-bottom: .9rem; }
+.download-head .ic { width: 1.7rem; height: 1.7rem; margin-top: .15rem; }
+.download-head div { display: flex; flex-direction: column; gap: .1rem; }
+.download-head strong { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; }
+.download-head span { color: var(--muted); font-size: .87rem; }
+.download-plan-btn { padding: .75rem 1.4rem; }
 
 /* ============ toast ============ */
 #toast {

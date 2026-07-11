@@ -114,8 +114,8 @@ Pure function `buildPlan(answers, courses, events)` → `{ course, events: [2-3]
 - Course card: title, provider, cost badge, duration, why-line, `firstStep`, [Start now →]
 - Event cards (2–3): date, mode/city, 🛡 "Beginner-safe" tag + note, why-line,
   **"Learn this first →"** link that points at the plan's course (the ⭐ join), [Save] [Sign up →]
-- "📧 Email me my plan" — fake-door: capture email to localStorage, success toast
-  "Plan sent! We'll nudge you when it's time." (do NOT claim a real weekly loop in code comments/UI copy beyond this)
+- "⬇️ Download my plan" — client-side PDF of the full plan with clickable resource links,
+  downloads straight to the device, success toast (no capture, no server — nothing leaves the device)
 - [Save] toggles saved state (localStorage). Share/copy-link button.
 - "Remix answers" to retake intake.
 
