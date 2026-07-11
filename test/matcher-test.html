@@ -34,10 +34,10 @@
   <script src="../data/courses.js"></script>
   <script src="../data/events.js"></script>
   <script src="../js/matcher.js"></script>
-  <script src="../js/app.js"></script><!-- no #app here: boots nothing, just exposes SAMPLE_* fallback -->
+  <script src="../js/app.js"></script><!-- no #app here: app.js boots nothing without it -->
   <script>
-    var COURSES = (window.COURSES && window.COURSES.length) ? window.COURSES : window.SAMPLE_COURSES;
-    var EVENTS  = (window.EVENTS  && window.EVENTS.length)  ? window.EVENTS  : window.SAMPLE_EVENTS;
+    var COURSES = window.COURSES || [];
+    var EVENTS  = window.EVENTS || [];
 
     var LEVELS = ['new', 'dabbled', 'coder'];
     var GOALS = ['job', 'switch', 'build', 'understand'];
@@ -91,8 +91,8 @@
     banner.textContent = (allPass ? 'PASS' : 'FAIL') + ' — ' + passCount + '/' + cases.length + ' combos ok';
     banner.className = allPass ? 'pass' : 'fail';
     document.getElementById('meta').textContent =
-      'Data: ' + COURSES.length + ' courses (' + ((window.COURSES && window.COURSES.length) ? 'data/courses.js' : 'inline fallback') + '), ' +
-      EVENTS.length + ' events (' + ((window.EVENTS && window.EVENTS.length) ? 'data/events.js' : 'inline fallback') + '). ' +
+      'Data: ' + COURSES.length + ' courses (data/courses.js), ' +
+      EVENTS.length + ' events (data/events.js). ' +
       '144 exhaustive combos + ' + (cases.length - 144) + ' city cases.';
     document.getElementById('fails').textContent = failures.join('\n');
   </script>

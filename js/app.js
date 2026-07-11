@@ -1,7 +1,6 @@
 /* OnRamp — app.js
  * State machine (no router) for 3 screens: landing → intake → plan.
- * Loads window.COURSES / window.EVENTS from data/*.js; falls back to the INLINE
- * samples below so the app runs standalone. Rendering + micro-interactions live here.
+ * Loads window.COURSES / window.EVENTS from data/*.js. Rendering + micro-interactions live here.
  */
 (function () {
   'use strict';
@@ -21,91 +20,8 @@
     return EMAIL_CONFIG.serviceId && EMAIL_CONFIG.templateId && EMAIL_CONFIG.publicKey;
   }
 
-  /* =====================================================================
-   * INLINE FALLBACK DATA (used only when data/courses.js & data/events.js
-   * are missing or empty). Schemas match SPEC.md exactly. The data-courses
-   * and data-events agents own the full curated sets.
-   * ===================================================================== */
-  var SAMPLE_COURSES = [
-    {
-      id: 'ai-for-everyone', title: 'AI For Everyone',
-      provider: 'DeepLearning.AI (Coursera)',
-      url: 'https://www.coursera.org/learn/ai-for-everyone',
-      levels: ['new', 'dabbled'], goals: ['understand', 'switch'],
-      motivations: ['curious', 'escape'], hoursFit: ['lt3', '3to6'],
-      durationLabel: '~6 hrs total', cost: 'free', format: 'video course',
-      tagline: 'The classic non-technical AI primer', topics: ['fundamentals'],
-      firstStep: 'Watch Week 1 (50 min) tonight'
-    },
-    {
-      id: 'elements-of-ai', title: 'Elements of AI',
-      provider: 'University of Helsinki',
-      url: 'https://www.elementsofai.com/',
-      levels: ['new', 'dabbled'], goals: ['understand', 'switch', 'job'],
-      motivations: ['curious', 'belong'], hoursFit: ['lt3', '3to6', '7plus'],
-      durationLabel: '~30 hrs, self-paced', cost: 'free', format: 'online course',
-      tagline: 'Free, friendly, and genuinely foundational', topics: ['fundamentals', 'ml'],
-      firstStep: 'Finish Chapter 1 “What is AI?” this week'
-    },
-    {
-      id: 'prompt-eng-devs', title: 'ChatGPT Prompt Engineering for Developers',
-      provider: 'DeepLearning.AI',
-      url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/',
-      levels: ['dabbled', 'coder'], goals: ['build', 'job'],
-      motivations: ['compete', 'curious', 'escape'], hoursFit: ['lt3', '3to6'],
-      durationLabel: '~1.5 hrs total', cost: 'free', format: 'short course',
-      tagline: 'From prompt-guessing to prompt-engineering', topics: ['prompting', 'llm-apps'],
-      firstStep: 'Do the first two lessons in the browser sandbox now'
-    },
-    {
-      id: 'fastai-practical', title: 'Practical Deep Learning for Coders',
-      provider: 'fast.ai',
-      url: 'https://course.fast.ai/',
-      levels: ['coder'], goals: ['build', 'job', 'switch'],
-      motivations: ['compete', 'escape', 'curious'], hoursFit: ['3to6', '7plus'],
-      durationLabel: '~40 hrs, project-based', cost: 'free', format: 'code-along course',
-      tagline: 'Ship a working model in lesson one', topics: ['python', 'ml', 'llm-apps'],
-      firstStep: 'Set up the notebook and run Lesson 1 end-to-end'
-    }
-  ];
-
-  var SAMPLE_EVENTS = [
-    {
-      id: 'ai-tinkerers-jul', title: 'AI Tinkerers Meetup', org: 'AI Tinkerers',
-      url: 'https://aitinkerers.org/', source: 'luma', dateISO: '2026-07-18',
-      dateLabel: 'Sat · Jul 18', mode: 'online', city: null, kind: 'meetup',
-      beginnerSafe: true, beginnerNote: 'First-timers welcome — intros round, no demos required',
-      prepTopic: 'prompting', goals: ['build', 'job'], motivations: ['belong', 'curious'], free: true
-    },
-    {
-      id: 'eoai-study-group-jul', title: 'Elements of AI Study Group', org: 'Community',
-      url: 'https://www.elementsofai.com/', source: 'meetup', dateISO: '2026-07-22',
-      dateLabel: 'Wed · Jul 22', mode: 'online', city: null, kind: 'study-group',
-      beginnerSafe: true, beginnerNote: 'Absolute beginners encouraged — we go one chapter at a time',
-      prepTopic: 'fundamentals', goals: ['understand', 'switch'], motivations: ['belong', 'curious'], free: true
-    },
-    {
-      id: 'build-weekend-aug', title: 'AI Build Weekend', org: 'Devpost',
-      url: 'https://devpost.com/hackathons', source: 'devpost', dateISO: '2026-08-09',
-      dateLabel: 'Sat · Aug 9', mode: 'online', city: null, kind: 'hackathon',
-      beginnerSafe: false, beginnerNote: '', prepTopic: 'llm-apps',
-      goals: ['build', 'job'], motivations: ['compete', 'escape'], free: true
-    },
-    {
-      id: 'genai-workshop-sf-aug', title: 'Generative AI Workshop', org: 'SF AI Meetup',
-      url: 'https://www.meetup.com/', source: 'meetup', dateISO: '2026-08-15',
-      dateLabel: 'Sat · Aug 15', mode: 'in-person', city: 'San Francisco', kind: 'workshop',
-      beginnerSafe: true, beginnerNote: 'No experience needed — laptops provided, pair-friendly',
-      prepTopic: 'prompting', goals: ['build', 'understand'], motivations: ['curious', 'belong'], free: false
-    }
-  ];
-
-  // expose samples so test/matcher-test.html can reuse the exact same fallback
-  window.SAMPLE_COURSES = SAMPLE_COURSES;
-  window.SAMPLE_EVENTS = SAMPLE_EVENTS;
-
-  function getCourses() { return (window.COURSES && window.COURSES.length) ? window.COURSES : SAMPLE_COURSES; }
-  function getEvents() { return (window.EVENTS && window.EVENTS.length) ? window.EVENTS : SAMPLE_EVENTS; }
+  function getCourses() { return (window.COURSES && window.COURSES.length) ? window.COURSES : []; }
+  function getEvents() { return (window.EVENTS && window.EVENTS.length) ? window.EVENTS : []; }
 
   /* =====================================================================
    * ICONS — vivid inline SVG (no icon font, no CDN). Unique gradient ids.
@@ -528,6 +444,27 @@
     return evs.filter(function (e) { return e.kind === f; }).length;
   }
 
+  // "Real rooms in …" trust line — pulls actual in-person cities from the live
+  // events feed so the headline's "real rooms" promise is concrete, not decorative.
+  // Returns '' during an all-online window rather than inventing a city.
+  function heroTrustCities() {
+    var cities = [];
+    var hasOnline = false;
+    getEvents().forEach(function (e) {
+      if (e.mode === 'online') { hasOnline = true; return; }
+      if (e.city) {
+        var c = e.city.split(',')[0].trim();
+        if (c && cities.indexOf(c) === -1) cities.push(c);
+      }
+    });
+    if (!cities.length) {
+      return hasOnline ? '<p class="trust-cities">' + icon('globe') + 'Real rooms online, every week</p>' : '';
+    }
+    var label = cities.slice(0, 3).join(' · ');
+    var tail = hasOnline ? ' · and online' : (cities.length > 3 ? ' + more' : '');
+    return '<p class="trust-cities">' + icon('pin') + 'Real rooms in ' + esc(label + tail) + '</p>';
+  }
+
   function renderLanding() {
     state.screen = 'landing';
     render(
@@ -536,8 +473,8 @@
         '<div class="landing-inner">' +
         '<div class="hero">' +
           '<div class="brand"><span class="brand-mark">' + icon('compass', 'brand-ic') + '</span><span class="brand-name">OnRamp</span></div>' +
-          '<h1 class="hero-title">Stop doomscrolling AI.<br><span class="grad">One course, real rooms, one plan.</span></h1>' +
-          '<p class="hero-sub">A course to start tonight, real rooms this month, sized to the week you actually have.</p>' +
+          '<h1 class="hero-title">Stop doomscrolling AI.<br><span class="grad">Start building with it.</span></h1>' +
+          '<p class="hero-sub">One course to start tonight. Real rooms this month. Your next step today.</p>' +
           '<form class="search-bar" id="landing-search" role="search">' +
             '<span class="search-ic" aria-hidden="true">' + icon('search') + '</span>' +
             '<input id="landing-q" type="search" autocomplete="off" enterkeyhint="search" placeholder="Search courses, meetups, hackathons…" aria-label="Search courses and events" />' +
@@ -548,7 +485,8 @@
             '<button class="btn btn-primary btn-lg" id="cta-start" type="button">Get my plan <span class="ar">' + icon('arrow') + '</span></button>' +
             '<button class="btn btn-secondary btn-lg" id="cta-browse" type="button">' + icon('grid') + '<span id="browse-count-btn">Browse all ' + focusCount('all') + '</span></button>' +
           '</div>' +
-          '<p class="footnote">Free · No account · 2 minutes</p>' +
+          '<p class="footnote"><strong>Free</strong> · No account · 2 minutes</p>' +
+          heroTrustCities() +
           '<p class="anti-line"><span class="anti-ic" aria-hidden="true">' + icon('spark') + '</span>ChatGPT hands you a plan and forgets you. OnRamp hands you one next step and a real room to walk into.</p>' +
         '</div>' +
         '<div class="how">' +
@@ -962,7 +900,7 @@
     render(
       '<section class="plan">' +
         '<div class="plan-head">' +
-          '<button class="btn-ghost back" id="remix" aria-label="Remix answers">' + icon('back') + '<span>Remix</span></button>' +
+          '<button class="btn-ghost back" id="restart" aria-label="Restart">' + icon('back') + '<span>Restart</span></button>' +
           '<button class="btn-ghost share" id="share-btn">' + icon('share') + '<span>Share</span></button>' +
         '</div>' +
         '<h2 class="plan-title">Your next step, <span class="grad">not a catalog</span></h2>' +
@@ -986,7 +924,7 @@
     );
 
     // wire
-    document.getElementById('remix').addEventListener('click', remix);
+    document.getElementById('restart').addEventListener('click', restart);
     document.getElementById('share-btn').addEventListener('click', sharePlan);
     Array.prototype.forEach.call(app.querySelectorAll('.save-btn'), function (b) {
       b.addEventListener('click', function () { toggleSave(b.getAttribute('data-save'), b); });
@@ -1101,11 +1039,11 @@
     btn.querySelector('.save-txt').textContent = saved ? 'Saved' : 'Save';
   }
 
-  function remix() {
+  function restart() {
     state.answers = { level: null, goal: null, hours: null, motivation: null, location: { city: null, onlineOnly: false } };
     state.plan = null;
     clearHash();
-    startIntake();
+    renderLanding();
   }
 
   /* =====================================================================

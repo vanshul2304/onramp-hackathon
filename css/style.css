@@ -4,6 +4,17 @@
  * multi-column at >=1024px (see LAYOUT.md for the token + breakpoint rules).
  */
 
+/* Fraunces — warm editorial display serif (SIL OFL), self-hosted woff2 so the
+   zero-CDN / no-external-request rule still holds. The opsz axis + optical
+   sizing pick the display cut at hero sizes; degrades to the old system stack. */
+@font-face {
+  font-family: "Fraunces";
+  src: url("../fonts/fraunces.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;   /* native controls/scrollbars match the dark shell */
   --bg: #051117;
@@ -21,7 +32,7 @@
   --accent-ink: var(--mint);
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* editorial serif display against the system-sans body — the pairing that reads "designed" */
-  --font-display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Charter, Georgia, "Times New Roman", serif;
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Charter, Georgia, "Times New Roman", serif;
 
   /* ---- spacing scale (4/8pt) — use these for structural rhythm ---- */
   --space-1: 0.25rem;   /* 4  */
@@ -252,21 +263,23 @@ input { font: inherit; }
 }
 
 .hero { position: relative; z-index: var(--z-content); padding-top: var(--space-7); text-align: center; }
-.brand { display: inline-flex; align-items: center; gap: .55rem; margin-bottom: 2.2rem; }
+.brand { display: inline-flex; align-items: center; gap: .5rem; margin-bottom: 1.7rem; }
 .brand-mark {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 2.4rem; height: 2.4rem; border-radius: .8rem;
+  width: 2rem; height: 2rem; border-radius: .7rem;
   background: linear-gradient(160deg, var(--surface-2), var(--surface));
   border: var(--border);
 }
-.brand-ic { width: 1.4rem; height: 1.4rem; }
-.brand-name { font-weight: 800; font-size: 1.3rem; letter-spacing: -.02em; }
+.brand-ic { width: 1.15rem; height: 1.15rem; }
+/* small, quiet wordmark — the headline is the hero, the brand just signs it */
+.brand-name { font-weight: 700; font-size: 1.02rem; letter-spacing: -.01em; }
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(2.35rem, 1.4rem + 4vw, 3.9rem);
-  line-height: 1.08;
-  letter-spacing: -.02em;
+  font-optical-sizing: auto;      /* Fraunces opsz: display cut at large sizes */
+  font-size: clamp(2.35rem, 1.2rem + 4.8vw, 4.5rem);
+  line-height: 1.02;
+  letter-spacing: -.025em;
   font-weight: 600;
   margin-bottom: 1.1rem;
   text-wrap: balance;
@@ -337,7 +350,12 @@ input { font: inherit; }
 .hero-cta .btn-secondary { background: var(--surface); }
 @media (max-width: 460px) { .hero-cta { flex-direction: column; align-items: stretch; } }
 
-.footnote { margin-top: .9rem; color: var(--muted); font-size: .85rem; }
+/* trust line under the CTAs — legible fact, not muted fine print: "Free" carries
+   the brand's mint ink so it reads first, the rest stays calm (no ad rhythm). */
+.footnote { margin-top: 1rem; color: var(--text); font-size: .95rem; font-weight: 500; letter-spacing: .005em; }
+.footnote strong { color: var(--accent-ink); font-weight: 700; }
+.trust-cities { margin-top: .55rem; color: var(--muted); font-size: .82rem; }
+.trust-cities .ic { width: .95rem; height: .95rem; color: var(--accent-ink); vertical-align: -.16em; margin-right: .28rem; }
 
 .anti-line {
   display: flex; align-items: flex-start; gap: .5rem;
